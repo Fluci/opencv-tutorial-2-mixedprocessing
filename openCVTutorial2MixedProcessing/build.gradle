@@ -20,6 +20,18 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
+    task ndkBuild(type: Exec){
+        //if(Os.isFamily(Os.FAMILY_WINDOWS)){
+        //    commandLine 'ndk-build.cmd', '-C', file('src/main').absolutePath
+        //} else {
+        commandLine '/home/fs/NVPACK/android-ndk-r10e/ndk-build', '-C', file('src/main').absolutePath
+        //}
+    }
+    tasks.withType(JavaCompile) {
+        compileTask -> compileTask.dependsOn ndkBuild
+    }
+
+    sourceSets.main{jni.srcDirs=[]}
 }
 
 dependencies {
